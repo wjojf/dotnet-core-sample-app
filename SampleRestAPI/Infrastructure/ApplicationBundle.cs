@@ -1,4 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SampleRestAPI.domain.workout;
 using SampleRestAPI.infrastructure.EF;
 using SampleRestAPI.infrastructure.Handlers;
@@ -18,8 +21,34 @@ public static class ApplicationBundle
         {
             options.UseNpgsql(builder.Configuration.GetConnectionString("postgres"));
         });
+        
+        _RegisterJWT(builder.Services, builder.Configuration);
 
         builder.Services.AddScoped<IWorkoutsRepository, WorkoutsRepository>();
+        
+    }
+    
+    private static void _RegisterJWT(IServiceCollection services, ConfigurationManager configurationManager)
+    {
+       services.AddAuthentication(options =>
+       {
+           options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+           options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+       })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters{
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = configurationManager["Jwt:Issuer"],
+                ValidAudience = configurationManager["Jwt:Issuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(configurationManager["Jwt:Key"] ?? string.Empty)
+                )
+            };
+        });
     }
     
     public static void Configure(WebApplication app)
@@ -31,6 +60,7 @@ public static class ApplicationBundle
         }
         
         app.UseHttpsRedirection();
+        app.UseAuthentication();
         
         RegisterHandlers(app);
     }
