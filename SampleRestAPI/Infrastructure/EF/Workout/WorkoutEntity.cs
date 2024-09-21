@@ -1,54 +1,54 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SampleRestAPI.domain.exercise;
-using SampleRestAPI.domain.workout;
+using WorkoutModel = SampleRestAPI.domain.workout.Workout;
 
-namespace SampleRestAPI.infrastructure.EF;
+namespace SampleRestAPI.infrastructure.EF.Workout;
 
 [Table("workouts")]
 public class WorkoutEntity
 {
-    [Key]
-    public Guid Id { get; set; }
-    
-    public string Name { get; set; }
-    public string Description { get; set; }
-    
-    public List<ExerciseEntity> Exercises { get; set; }
-    
-    
-    public static WorkoutEntity FromModel(Workout workout)
+    private WorkoutEntity(Guid id, string name, string description, List<ExerciseEntity> exercises)
     {
-        return new WorkoutEntity()
-        {
-            Id = workout.Id,
-            Name = workout.Name,
-            Description = workout.Description,
-            Exercises = workout.Exercises.Select(ExerciseEntity.FromModel).ToList()
-        };
+        Id = id;
+        Name = name;
+        Description = description;
+        Exercises = exercises;
     }
 
-    public void UpdateFromModel(Workout model)
+    [Key] public Guid Id { get; init; }
+
+    [MaxLength(50)]
+    public string Name { get; set; }
+    
+    [MaxLength(500)]
+    public string Description { get; set; }
+    
+    public List<ExerciseEntity> Exercises { get; init; }
+    
+    public static WorkoutEntity FromModel(WorkoutModel workout)
+    {
+        return new WorkoutEntity(
+            workout.Id,
+            workout.Name,
+            workout.Description,
+            workout.Exercises.Select(ExerciseEntity.FromModel).ToList()
+        );
+    }
+
+    public void UpdateFromModel(WorkoutModel model)
     {
         Name = model.Name;
         Description = model.Description;
     }
     
     
-    public Workout ToModel()
+    public WorkoutModel ToModel()
     {
-        
-        List<Exercise> exercises = [];
-        if (Exercises != null)
-        {
-            exercises = Exercises.Select(e => e.ToModel()).ToList();
-        }
-        
-        return new Workout(
+        return new WorkoutModel(
             Id,
             Name,
             Description,
-            exercises
+            Exercises.Select(e => e.ToModel()).ToList()
         );
     }
 }

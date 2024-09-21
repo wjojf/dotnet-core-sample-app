@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SampleRestAPI.infrastructure.EF.Workout;
 
 namespace SampleRestAPI.infrastructure.EF;
 

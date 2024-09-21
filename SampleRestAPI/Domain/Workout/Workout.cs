@@ -24,9 +24,4 @@ public class Workout(Guid id, string name, string description, List<Exercise> ex
     
     public List<Exercise> Exercises { get; private set; } = exercises;
     
-    public bool HasExercises()
-    {
-        return Exercises.Count != 0;
-    }
-    
 }

@@ -1,4 +1,5 @@
 using SampleRestAPI.domain.exercise;
+using SampleRestAPI.infrastructure.EF.Workout;
 
 namespace SampleRestAPI.infrastructure.EF;
 

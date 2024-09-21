@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using SampleRestAPI.domain.workout;
+using WorkoutModel = SampleRestAPI.domain.workout.Workout;
 
-namespace SampleRestAPI.infrastructure.EF;
+namespace SampleRestAPI.infrastructure.EF.Workout;
 
 public class WorkoutsRepository(ApplicationDbContext context) : IWorkoutsRepository
 {
-    public Task<IEnumerable<Workout>> GetAll()
+    public Task<IEnumerable<WorkoutModel>> GetAll()
     {
         var workouts = context.Workouts.
                 Include(e => e.Exercises).
@@ -14,7 +15,7 @@ public class WorkoutsRepository(ApplicationDbContext context) : IWorkoutsReposit
         return Task.FromResult(workouts.Select(w => w.ToModel()));
     }
     
-    public Task<Workout?> Get(Guid id)
+    public Task<WorkoutModel?> Get(Guid id)
     {
         var workout = context.Workouts.
             Include(e => e.Exercises).
@@ -23,7 +24,7 @@ public class WorkoutsRepository(ApplicationDbContext context) : IWorkoutsReposit
         return Task.FromResult(workout?.ToModel());
     }
     
-    public Task Update(Workout workout)
+    public Task Update(WorkoutModel workout)
     {
         var entity = context.Workouts.Find(workout.Id);
         if (entity == null)
@@ -35,7 +36,7 @@ public class WorkoutsRepository(ApplicationDbContext context) : IWorkoutsReposit
         
         return Task.FromResult(context.SaveChanges());
     }
-    public Task Create(Workout workout)
+    public Task Create(WorkoutModel workout)
     {
         var entity = WorkoutEntity.FromModel(workout);
         context.Workouts.Add(entity);

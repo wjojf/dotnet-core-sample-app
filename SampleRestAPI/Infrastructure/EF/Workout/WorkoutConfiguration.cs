@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SampleRestAPI.infrastructure.EF;
+namespace SampleRestAPI.infrastructure.EF.Workout;
 
 public class WorkoutConfiguration: IEntityTypeConfiguration<WorkoutEntity>
 {
