@@ -8,9 +8,11 @@ public static class WorkoutsHandlers
 
     public static void MapWorkoutsRoutes(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/workouts", (IWorkoutsRepository service) => service.GetAll());
+        app.MapGet("/workouts", (IWorkoutsRepository service) => service.GetAll())
+            .RequireAuthorization();
         
-        app.MapGet("/workouts/{id}", (IWorkoutsRepository service, Guid id) => service.Get(id));
+        app.MapGet("/workouts/{id}", (IWorkoutsRepository service, Guid id) => service.Get(id))
+            .RequireAuthorization();
         
         app.MapPost("/workouts", (IWorkoutsRepository service, WorkoutCreateDTO workout) =>
         {
@@ -19,7 +21,8 @@ public static class WorkoutsHandlers
             service.Create(model);
 
             return new Dictionary<string, string>{{"message", "Workout created"}};
-        });
+        })
+            .RequireAuthorization();
         
         app.MapPut("/workouts/{id}", (IWorkoutsRepository service, Guid id, WorkoutUpdateDTO workout) =>
         {

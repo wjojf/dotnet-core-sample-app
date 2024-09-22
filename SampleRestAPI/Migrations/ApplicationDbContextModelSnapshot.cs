@@ -64,7 +64,29 @@ namespace SampleRestAPI.Migrations
                     b.ToTable("exercises", (string)null);
                 });
 
-            modelBuilder.Entity("SampleRestAPI.infrastructure.EF.WorkoutEntity", b =>
+            modelBuilder.Entity("SampleRestAPI.infrastructure.EF.User.UserEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("SampleRestAPI.infrastructure.EF.Workout.WorkoutEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,11 +94,13 @@ namespace SampleRestAPI.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
@@ -91,7 +115,7 @@ namespace SampleRestAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SampleRestAPI.infrastructure.EF.WorkoutEntity", null)
+                    b.HasOne("SampleRestAPI.infrastructure.EF.Workout.WorkoutEntity", null)
                         .WithMany()
                         .HasForeignKey("WorkoutsId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -1,12 +1,12 @@
-using SampleRestAPI.infrastructure;
+using SampleRestAPI.infrastructure.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-ApplicationBundle.RegisterServices(builder);
+builder.Prepare();
 
 var app = builder.Build();
 
-ApplicationBundle.Configure(app);
+app.Configure();
 
 app.Run();
 
