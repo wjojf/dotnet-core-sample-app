@@ -23,11 +23,14 @@ public record AuthenticationConfig
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey))
     };
 
-    public AuthenticationConfig(IConfiguration configuration)
+    public static AuthenticationConfig FromConfig(IConfiguration configuration)
     {
-        JwtKey = configuration["Jwt:Key"] ?? string.Empty;
-        JwtIssuer = configuration["Jwt:Issuer"] ?? string.Empty;
-        JwtExpirationMinutes = int.Parse(configuration["Jwt:ExpirationMinutes"] ?? "60");
-        Algorithm = configuration["Jwt:Algorithm"] ?? SecurityAlgorithms.HmacSha256;
+        return new AuthenticationConfig()
+        {
+            JwtKey = configuration["Jwt:Key"] ?? string.Empty,
+            JwtIssuer = configuration["Jwt:Issuer"] ?? string.Empty,
+            JwtExpirationMinutes = int.Parse(configuration["Jwt:ExpirationMinutes"] ?? "60"),
+            Algorithm = configuration["Jwt:Algorithm"] ?? SecurityAlgorithms.HmacSha256,
+        };
     }
 }

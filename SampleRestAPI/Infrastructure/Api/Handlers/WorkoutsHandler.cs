@@ -1,7 +1,7 @@
 using SampleRestAPI.domain.workout;
 using SampleRestAPI.infrastructure.Api.DTO.Workout;
 
-namespace SampleRestAPI.infrastructure.Handlers;
+namespace SampleRestAPI.Infrastructure.Api.Handlers;
 
 public static class WorkoutsHandlers
 {

@@ -20,7 +20,7 @@ public static class JwtHelpers
             audience: configuration.JwtIssuer,
             claims:
             [
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString())
+                new Claim("userId", userId.ToString())
             ],
             expires: DateTime.Now.AddMinutes(configuration.JwtExpirationMinutes),
             signingCredentials: credentials

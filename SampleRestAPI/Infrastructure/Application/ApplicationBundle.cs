@@ -19,7 +19,7 @@ public static class ApplicationBundle
        
        builder.Services.ConfigureSwagger();
        
-       builder.Services.RegisterInternalServices();
+       builder.Services.RegisterInternalServices(builder.Configuration);
     }
     
 }

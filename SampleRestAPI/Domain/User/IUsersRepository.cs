@@ -14,5 +14,7 @@ public interface IUsersRepository
     public Task<User> DeleteUser(Guid id);
     
     public Task<IEnumerable<User>> GetUsers();
-    
+
+    public bool PasswordMatches(Guid id, string password);
+
 }

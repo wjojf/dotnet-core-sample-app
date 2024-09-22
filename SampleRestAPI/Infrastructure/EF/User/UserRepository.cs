@@ -14,7 +14,7 @@ public class UserRepository(ApplicationDbContext context): IUsersRepository
 
     public Task<UserModel?> GetUserByUsername(string username)
     {
-        var user = context.Users.First(u => u.Username == username);
+        var user = context.Users.FirstOrDefault(u => u.Username == username);
         return Task.FromResult(user?.ToModel());
     }
 
@@ -38,5 +38,11 @@ public class UserRepository(ApplicationDbContext context): IUsersRepository
     public Task<IEnumerable<UserModel>> GetUsers()
     {
         throw new NotImplementedException();
+    }
+    
+    public bool PasswordMatches(Guid id, string password)
+    {
+        var user = context.Users.Find(id);
+        return user?.Password == password;
     }
 }
