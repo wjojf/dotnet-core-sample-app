@@ -13,13 +13,15 @@ public static class ApplicationBundle
     
     public static void Prepare(this WebApplicationBuilder builder)
     {
-       builder.Services.ConfigureDatabase(builder.Configuration);
+        builder.Services.ConfigureDatabase(builder.Configuration);
        
-       builder.Services.ConfigureJwt(builder.Configuration);
+        builder.Services.ConfigureJwt(builder.Configuration);
        
-       builder.Services.ConfigureSwagger();
+        builder.Services.ConfigureSwagger();
        
-       builder.Services.RegisterInternalServices(builder.Configuration);
+        builder.Services.RegisterInternalServices(builder.Configuration);
+       
+        builder.Services.ConfigureLogging();
     }
     
 }

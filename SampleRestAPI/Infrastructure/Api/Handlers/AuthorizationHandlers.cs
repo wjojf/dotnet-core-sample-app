@@ -16,7 +16,6 @@ public static class AuthorizationHandlers
                 [FromServices] AuthenticationConfig config, 
                 [FromServices] IUsersRepository usersRepository) =>
             {
-                await Console.Out.WriteAsync(dto.Password);
                 
                 var user = await usersRepository.GetUserByUsername(dto.Username);
                 if (user == null)

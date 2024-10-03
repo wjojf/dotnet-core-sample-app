@@ -29,20 +29,24 @@ public static class JwtHelpers
         return new JwtSecurityTokenHandler().WriteToken(token);
     } 
     
-    public static bool ValidateToken(AuthenticationConfig configuration, string token)
+    public static SecurityToken? ValidateToken(AuthenticationConfig configuration, string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var validationParameters = configuration.TokenValidationParameters;
+
+        SecurityToken? validatedToken = null;
+
         
         try
         {
-            tokenHandler.ValidateToken(token, validationParameters, out _);
-            return true;
+            tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
         }
         catch
         {
-            return false;
+            // ignored
         }
+        
+        return validatedToken;
     }
     
 }

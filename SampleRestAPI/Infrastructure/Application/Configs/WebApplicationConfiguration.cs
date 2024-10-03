@@ -14,10 +14,11 @@ public static class WebApplicationConfiguration
         
         app.UseHttpsRedirection();
         
+        app.UseHttpLogging();
+        
         app.UseAuthentication();
         app.UseAuthorization();
         
         app.RegisterRoutes();
-        
     }
 }
